@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { connect } from 'react-redux';
 import { fetchCharacters as fetchCharactersAction } from '../../actions/actions';
+import CharacterCard from '../CharacterCard/CharacterCard';
+import Loader from 'react-loader-spinner';
 
 type Props = {
     characters: Array<any>,
@@ -20,6 +22,7 @@ const CharactersContainer: React.FC<Props> = ({ characters, hasNextPage, fetchCh
 
     return(
         <div>
+            
             <InfiniteScroll
                   dataLength={characters.length}
                   next={() => {
@@ -27,15 +30,28 @@ const CharactersContainer: React.FC<Props> = ({ characters, hasNextPage, fetchCh
                         fetchCharacters(currentPage+1, characters)
                     }}
                   hasMore={hasNextPage}
-                  loader={<h4>Loading...</h4>}
+                  loader={
+                      <div style={{display: 'flex', justifyContent: 'center'}}>
+                        <Loader
+                            type="ThreeDots"
+                            color="#00BFFF"
+                            height={100}
+                            width={100}
+                            timeout={3000}
+                        />
+                      </div>
+                  }
             >
                 {
                     characters.map(character => 
-                        <div key={character.name}>
-                            <h1>Name: {character.name}</h1>
-                            <h2>Gender: {character.gender}</h2>
-                            <h2>Birth year: {character.birth_year}</h2>
-                        </div>
+                        <CharacterCard 
+                            key={character.name}
+                            name={character.name}
+                            gender={character.gender}
+                            birth_year={character.birth_year}
+                            height={character.height}
+                            films={character.films}
+                        />
                     )
                 }
             </InfiniteScroll>
