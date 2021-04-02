@@ -1,11 +1,16 @@
 import React from 'react';
 import './App.css';
+import CharactersContainer from './components/CharactersContainer/CharactersContainer';
+import { Provider } from 'react-redux';
+import store from './store/store';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-        star wars
-    </div>
+    <Provider store={store}>
+      <div className="App">
+          <CharactersContainer />
+      </div>
+    </Provider>
   );
 }
 
